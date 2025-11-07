@@ -33,20 +33,4 @@
 - **HTML / CSS / JavaScript** pour l’interface web  
 - **AJAX / Fetch API** pour la communication en temps réel avec le microcontrôleur  
 
----
 
-## 📷 Captures d’écran
-
-![Dashboard](docs/dashboard.png)  
-*Vue principale du système avec statut en temps réel et historique des véhicules*  
-
-![Gestion](docs/manage.png)  
-*Gestion des plaques autorisées depuis l’interface web*  
-
----
-
-## 🚀 Installation & Utilisation
-
-1. Cloner le dépôt :  
-   ```bash
-   git clone https://github.com/tonusername/smart-parking-iot.git
