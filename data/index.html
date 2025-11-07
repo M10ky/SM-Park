@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parking Intelligent</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #e9eef3;
+      color: #333;
+      line-height: 1.6;
+    }
+    header {
+      background: linear-gradient(90deg, #1f3b4d, #1f78b4);
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      background: #1f3b4d;
+      padding: 10px 0;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      padding: 10px 20px;
+      font-size: 18px;
+      margin: 0 10px;
+      transition: color 0.3s ease, background-color 0.3s ease;
+      border-radius: 5px;
+      position: relative;
+    }
+    nav a::before {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background-color: #1f78b4;
+      visibility: hidden;
+      transition: all 0.3s ease-in-out;
+    }
+    nav a:hover::before {
+      visibility: visible;
+      width: 100%;
+    }
+    .content {
+      padding: 60px 20px;
+      text-align: center;
+    }
+    .content h1 {
+      font-size: 3em;
+      color: #1f3b4d;
+      margin-bottom: 20px;
+      animation: fadeInDown 1s ease;
+    }
+    .content p {
+      font-size: 1.2em;
+      color: #666;
+      margin-bottom: 20px;
+      animation: fadeInUp 1s ease;
+    }
+    footer {
+      background: #1f3b4d;
+      color: white;
+      padding: 10px 0;
+      text-align: center;
+      font-size: 0.9em;
+      position: absolute;
+      width: 100%;
+      bottom: 0;
+    }
+    .logout {
+      background-color: transparent;
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+      transition: color 0.3s ease;
+    }
+    .logout:hover {
+      color: #ff4d4d;
+    }
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+  <header>
+    <h1>Système de Parking Intelligent</h1>
+  </header>
+
+  <nav>
+    <a href="status.html">Statut des Places</a>
+    <a href="history.html">Historique</a>
+    <a href="manage.html">Gérer les Véhicules</a>
+    <div class="header">
+      <button class="logout" onclick="logout()"><i class='bx bx-power-off bx-md'></i></button>
+    </div>
+  </nav>
+  
+  

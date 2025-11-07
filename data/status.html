@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Statut du Parking</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f7f9fc;
+      color: #333;
+      line-height: 1.6;
+    }
+    header {
+      background-color: #1f3b4d;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      background-color: #1f3b4d;
+      padding: 10px 0;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      padding: 10px 20px;
+      font-size: 18px;
+      margin: 0 10px;
+      transition: color 0.3s ease;
+    }
+    nav a:hover {
+      color: #1f78b4;
+    }
+    .content {
+      padding: 60px 20px;
+      text-align: center;
+    }
+    .content h1 {
+      font-size: 2.5em;
+      color: #1f3b4d;
+      margin-bottom: 20px;
+    }
+    table {
+      width: 80%;
+      margin: 0 auto;
+      border-collapse: collapse;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      padding: 15px;
+      text-align: center;
+      font-size: 18px;
+    }
+    th {
+      background-color: #1f78b4;
+      color: white;
+    }
+    td {
+      background-color: #fff;
+    }
+    footer {
+      background-color: #1f3b4d;
+      color: white;
+      padding: 10px 0;
+      text-align: center;
+      font-size: 0.9em;
+      position: relative;
+      width: 100%;
+      bottom: 0;
+    }
+    .logout {
+            background-color: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+  <header>
+    <h1>Statut du Parking</h1>
+  </header>
+
+  <nav>
+    
+    <a href="status.html">Statut des Places</a>
+    <a href="history.html">Historique</a>
+    <a href="manage.html">Gérer les Véhicules</a>
+    <div class="header">
+      <button class="logout" onclick="logout()"><i class='bx bx-power-off bx-md'></i></button>
+  </div>
+  <div class="content">
+      <!-- Page content here -->
+  </div>
+  </nav>
+
+  <div class="content">
+    <h1>Statut des Emplacements</h1>
+    <table id="parkingStatus">
+      <tr>
+        <th>Numéro d'Emplacement</th>
+        <th>Statut</th>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td id="slot1">Chargement...</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td id="slot2">Chargement...</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td id="slot3">Chargement...</td>
+      </tr>
+    </table>
+  </div>
+
+  <footer>
+    <p>© 2024 Parking Intelligent - MISEI</p>
+  </footer>
+
+  <script>
+    function fetchStatus() {
+      fetch('/status')
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById("slot1").innerText = data[0];
+          document.getElementById("slot2").innerText = data[1];
+          document.getElementById("slot3").innerText = data[2];
+        })
+        .catch(error => console.log("Erreur lors de la récupération du statut: ", error));
+    }
+
+    setInterval(fetchStatus, 3000);  // Actualisation toutes les 3 secondes
+    window.onload = fetchStatus;
+    function logout() {
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "/logout", true);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    window.location.href = "/login";
+                }
+            };
+            xhr.send();
+        }
+  </script>
+</body>
+</html>

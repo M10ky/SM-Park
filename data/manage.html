@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gérer les Véhicules</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f7f9fc;
+      color: #333;
+      line-height: 1.6;
+    }
+    header {
+      background-color: #1f3b4d;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      background-color: #1f3b4d;
+      padding: 10px 0;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      padding: 10px 20px;
+      font-size: 18px;
+      margin: 0 10px;
+      transition: color 0.3s ease;
+    }
+    nav a:hover {
+      color: #1f78b4;
+    }
+    .content {
+      padding: 60px 20px;
+      text-align: center;
+    }
+    .content h1 {
+      font-size: 2.5em;
+      color: #1f3b4d;
+      margin-bottom: 20px;
+    }
+    input[type="text"] {
+      width: 50%;
+      padding: 10px;
+      margin: 20px 0;
+      font-size: 16px;
+      border: 2px solid #ddd;
+      border-radius: 4px;
+      transition: border-color 0.3s ease;
+    }
+    input[type="text"]:focus {
+      border-color: #1f78b4;
+    }
+    .button {
+      background-color: #1f78b4;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      margin: 10px 5px;
+      cursor: pointer;
+      border: none;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+    }
+    .button:hover {
+      background-color: #1995e7;
+    }
+    footer {
+      background-color: #1f3b4d;
+      color: white;
+      padding: 10px 0;
+      text-align: center;
+      font-size: 0.9em;
+      position: relative;
+      width: 100%;
+      bottom: 0;
+    }
+    #responseMessage {
+      margin-top: 20px;
+      color: #333;
+      font-size: 18px;
+    }
+    .logout {
+            background-color: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+  <header>
+    <h1>Gérer les Véhicules</h1>
+  </header>
+
+  <nav>
+   
+    <a href="status.html">Statut des Places</a>
+    <a href="history.html">Historique</a>
+    <a href="manage.html">Gérer les Véhicules</a>
+    <div class="header">
+      <button class="logout" onclick="logout()"><i class='bx bx-power-off bx-md'></i></button>
+  </div>
+  <div class="content">
+      <!-- Page content here -->
+  </div>
+  </nav>
+
+  <div class="content">
+    <h1>Ajouter ou Supprimer une Plaque</h1>
+    <input type="text" id="plateInput" placeholder="Entrer une plaque de véhicule">
+    <br>
+    <button class="button" onclick="addPlate()">Ajouter Plaque</button>
+    <button class="button" onclick="removePlate()">Supprimer Plaque</button>
+    <p id="responseMessage"></p>
+  </div>
+
+  <footer>
+    <p>© 2024 Parking Intelligent - MISEI</p>
+  </footer>
+
+  <script>
+    function addPlate() {
+      const plate = document.getElementById("plateInput").value;
+      if (plate === "") {
+        document.getElementById("responseMessage").innerText = "Veuillez entrer un numéro de plaque.";
+        return;
+      }
+
+      fetch('/add_plate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `plate=${plate}`
+      })
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("responseMessage").innerText = data;
+      })
+      .catch(error => console.error("Erreur lors de l'ajout de la plaque :", error));
+    }
+
+    function removePlate() {
+      const plate = document.getElementById("plateInput").value;
+      if (plate === "") {
+        document.getElementById("responseMessage").innerText = "Veuillez entrer un numéro de plaque.";
+        return;
+      }
+
+      fetch('/remove_plate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `plate=${plate}`
+      })
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("responseMessage").innerText = data;
+      })
+      .catch(error => console.error("Erreur lors de la suppression de la plaque :", error));
+    }
+    function logout() {
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "/logout", true);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    window.location.href = "/login";
+                }
+            };
+            xhr.send();
+        }
+  </script>
+</body>
+</html>

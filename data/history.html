@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Historique des Véhicules</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f7f9fc;
+      color: #333;
+      line-height: 1.6;
+    }
+    header {
+      background-color: #1f3b4d;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      background-color: #1f3b4d;
+      padding: 10px 0;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      padding: 10px 20px;
+      font-size: 18px;
+      margin: 0 10px;
+      transition: color 0.3s ease;
+    }
+    nav a:hover {
+      color: #1f78b4;
+    }
+    .content {
+      padding: 60px 20px;
+      text-align: center;
+    }
+    .content h1 {
+      font-size: 2.5em;
+      color: #1f3b4d;
+      margin-bottom: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 2em 0;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      padding: 15px;
+      text-align: center;
+    }
+    th {
+      background-color: #1f78b4;
+      color: white;
+    }
+    td {
+      background-color: #f7f9fc;
+    }
+    footer {
+      background-color: #1f3b4d;
+      color: white;
+      padding: 10px 0;
+      text-align: center;
+      font-size: 0.9em;
+      position: relative;
+      width: 100%;
+      bottom: 0;
+    }
+    .logout {
+            background-color: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+  <header>
+    <h1>Historique des Véhicules</h1>
+  </header>
+
+  <nav>
+   
+    <a href="status.html">Statut des Places</a>
+    <a href="history.html">Historique</a>
+    <a href="manage.html">Gérer les Véhicules</a>
+    <div class="header">
+      <button class="logout" onclick="logout()"><i class='bx bx-power-off bx-md'></i></button>
+  </div>
+  <div class="content">
+      <!-- Page content here -->
+  </div>
+  </nav>
+  
+  <div class="content">
+    <h1>Historique des Entrées et Sorties</h1>
+    <table id="historyTable">
+      <tr>
+        <th>Numéro de Plaque</th>
+        <th>Heure d'Entrée</th>
+        <th>Heure de Sortie</th>
+      </tr>
+      <!-- Les lignes d'historique seront ajoutées ici via JavaScript -->
+    </table>
+  </div>
+  
+  <footer>
+    <p>© 2024 Parking Intelligent - MISEI</p>
+  </footer>
+
+  <script>
+    function fetchHistory() {
+      fetch('/history')
+        .then(response => response.json())
+        .then(data => {
+          const historyTable = document.getElementById("historyTable");
+          historyTable.innerHTML = `<tr><th>Numéro de Plaque</th><th>Heure d'Entrée</th><th>Heure de Sortie</th></tr>`;
+          
+          for (let i = 0; i < data.length; i++) {
+            const row = historyTable.insertRow(-1);
+            const plateCell = row.insertCell(0);
+            const entryTimeCell = row.insertCell(1);
+            const exitTimeCell = row.insertCell(2);
+
+            plateCell.innerText = data[i].plate;
+            entryTimeCell.innerText = data[i].entry;
+            exitTimeCell.innerText = data[i].exit || "Toujours garé";
+          }
+        })
+        .catch(error => console.log("Erreur lors de la récupération de l'historique : ", error));
+    }
+
+    window.onload = fetchHistory;
+    function logout() {
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "/logout", true);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    window.location.href = "/login";
+                }
+            };
+            xhr.send();
+        }
+  </script>
+</body>
+</html>
